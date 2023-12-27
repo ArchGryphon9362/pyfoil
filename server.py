@@ -7,10 +7,6 @@ import threading
 GAMES_PATH = environ.get("GAMES", "/games")
 IP = environ.get("IP", socket.gethostbyname(socket.gethostname()))
 PUBLIC_PORT = int(environ.get("PUBLIC_PORT", "9997"))
-PORT = int(environ.get("PORT", "9997"))
-
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-server_socket.bind(('0.0.0.0', 7777))
 
 def create_app():
     app = Flask(__name__)
@@ -30,15 +26,6 @@ def create_app():
         return send_from_directory(GAMES_PATH, game_path)
 
     return app
-
-def serve_app():
-    app = create_app()
-
-    if __name__ == "__main__":
-        from waitress import serve
-        serve(app, host="0.0.0.0", port=PORT)
-
-threading.Thread(target=serve_app, daemon=True).start()
 
 def send_games(address_list, address):
     to_send = "\n".join(address_list) + "\n"
@@ -72,10 +59,14 @@ def do_thing(address):
     except Exception as e:
         print(e)
 
-while True:
-    try:
-        message, address = server_socket.recvfrom(1024)
-        if message.strip().lower() == b"awoo-discovery":
-            do_thing(address[0])
-    except Exception as e:
-        print(e)
+def inf_loop():
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    server_socket.bind(('0.0.0.0', 7777))
+
+    while True:
+        try:
+            message, address = server_socket.recvfrom(1024)
+            if message.strip().lower() == b"awoo-discovery":
+                do_thing(address[0])
+        except Exception as e:
+            print(e)
