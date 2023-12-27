@@ -3,6 +3,7 @@ from os import environ, path, walk
 from urllib.parse import quote
 from flask import Flask, redirect, send_from_directory, request
 import threading
+from static_ranges import Ranges
 
 GAMES_PATH = environ.get("GAMES", "/games")
 IP = environ.get("IP", socket.gethostbyname(socket.gethostname()))
@@ -25,7 +26,7 @@ def create_app():
     def game(game_path):
         return send_from_directory(GAMES_PATH, game_path)
 
-    return app
+    return Ranges(app)
 
 def send_games(address_list, address):
     to_send = "\n".join(address_list) + "\n"
