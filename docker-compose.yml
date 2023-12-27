@@ -4,6 +4,6 @@ services:
     ports:
       - "9997:9997"
     volumes:
-      - /mnt/hs/downloads/games:/games
+      - ./games:/games
     env_file: .env
     restart: unless-stopped
