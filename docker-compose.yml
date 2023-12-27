@@ -7,3 +7,4 @@ services:
       - ./games:/games
     env_file: .env
     restart: unless-stopped
+    network_mode: host
