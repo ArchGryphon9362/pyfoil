@@ -61,7 +61,7 @@ def do_thing(address):
 
 def inf_loop():
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    server_socket.bind(('0.0.0.0', 7777))
+    server_socket.bind(('', 7777))
 
     while True:
         try:
