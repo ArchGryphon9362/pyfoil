@@ -1,0 +1,9 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8593:9997"
+    volumes:
+      - /mnt/hs/downloads/games:/games
+    env_file: .env
+    restart: unless-stopped
