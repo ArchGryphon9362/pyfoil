@@ -36,7 +36,7 @@ def serve_app():
 
     if __name__ == "__main__":
         from waitress import serve
-        serve(app, host="0.0.0.0", port=PUBLIC_PORT)
+        serve(app, host="0.0.0.0", port=PORT)
 
 threading.Thread(target=serve_app, daemon=True).start()
 
@@ -67,7 +67,7 @@ def discover_games(games_path):
 
 def do_thing(address):
     try:
-        game_list = [f"{IP}:{PORT}/game/{quote(game, safe='')}" for game in discover_games(GAMES_PATH)]
+        game_list = [f"{IP}:{PUBLIC_PORT}/game/{quote(game, safe='')}" for game in discover_games(GAMES_PATH)]
         send_games(game_list, address)
     except Exception as e:
         print(e)
